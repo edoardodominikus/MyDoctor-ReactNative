@@ -3,7 +3,7 @@ import React from 'react';
 import { ILLOGO, ILGetStarted } from '../../assets/illustration';
 import { Gap,Button } from '../../components/atoms';
 
-export default function GetStarted() {
+export default function GetStarted({navigation}) {
   return (
     <ImageBackground source={ILGetStarted} style={styles.page}>
         <View>
@@ -11,9 +11,9 @@ export default function GetStarted() {
             <Text style={styles.title}>Konsultasi dengan dokter jadi lebih mudah & fleksibel</Text>
         </View>
         <View>
-            <Button title="Get Started" />
+            <Button title="Get Started" onPress={() => navigation.navigate('Register')}/>
             <Gap height={16}></Gap>
-            <Button type="secondary" title="Sign In" />
+            <Button type="secondary" title="Sign In" onPress={()=> navigation.replace('Login')}/>
         </View>
     </ImageBackground>
   )
