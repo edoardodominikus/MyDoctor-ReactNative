@@ -3,7 +3,7 @@ import React from "react";
 import { ILLOGO } from "../../assets/illustration";
 import { Input, Link, Button,Gap } from "../../components/atoms";
 import { colors,fonts } from "../../utils";
-export default function Login() {
+export default function Login({navigation}) {
   return (
     <View style={styles.page}>
       <ILLOGO />
@@ -13,7 +13,7 @@ export default function Login() {
       <Gap height={10}/>
       <Link fontsize={12} title="Forgot Password"/>
       <Gap height={40}/>
-      <Button title="Sign in" />
+      <Button title="Sign in" onPress={()=>navigation.replace("MainApp")}/>
       <Gap height={30}/>
       <Link fontsize={16} title="Create New Account" align="center"/>
     </View>
