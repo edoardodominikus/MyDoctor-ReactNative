@@ -9,6 +9,9 @@ import {
 import { colors, fonts } from "../../utils";
 import { ScrollView } from "react-native-gesture-handler";
 import { Gap } from "../../components/atoms";
+import { JSONCategoryDoctor } from "../../assets";
+
+
 export default function Doctor() {
   return (
     <View style={styles.page}>
@@ -25,10 +28,11 @@ export default function Doctor() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <Gap width={32} />
-                <DoctorCategory />
-                <DoctorCategory />
-                <DoctorCategory />
-                <DoctorCategory />
+                {
+                  JSONCategoryDoctor.data.map(item => {
+                    return <DoctorCategory key={item.id} category={item.category} />
+                  })
+                }
                 <Gap width={22} />
               </View>
             </ScrollView>

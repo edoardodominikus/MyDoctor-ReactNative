@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
-import { DummyDoctor2 } from "../../../assets";
 import { fonts, colors } from "../../../utils";
 
-export default function ListDoctor() {
+export default function ListDoctor({profile, name, desc}) {
   return (
     <View style={styles.container}>
-      <Image source={DummyDoctor2} style={styles.avatar} />
+      <Image source={profile} style={styles.avatar} />
       <View>
-        <Text style={styles.name}>Alexander Jannie</Text>
-        <Text style={styles.desc}>Hi, I'm not feeling well. Can you help me out?</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.desc}>{desc}</Text>
       </View>
     </View>
   );
