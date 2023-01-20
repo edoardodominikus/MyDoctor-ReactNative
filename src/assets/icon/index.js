@@ -7,5 +7,6 @@ import IconMessages from "./textsms_passive.svg";
 import IconMessagesActive from "./textsms_active.svg";
 import IconHospital from "./map_passive.svg";
 import IconHospitalActive from "./map_active.svg";
+import IconStar from './star_rate_18px.svg';
 
-export { IconBackDark, IconAddPhoto, IconRemovePhoto,IconDoctor,IconDoctorActive,IconHospital,IconHospitalActive,IconMessages,IconMessagesActive };
+export { IconStar, IconBackDark, IconAddPhoto, IconRemovePhoto,IconDoctor,IconDoctorActive,IconHospital,IconHospitalActive,IconMessages,IconMessagesActive };
