@@ -6,7 +6,7 @@ import { fonts } from "../../../utils";
 import DarkProfile from "./DarkProfile";
 export default function Header({ title, onPress, type }) {
   if(type==="dark-profile"){
-    return <DarkProfile />
+    return <DarkProfile onPress={onPress} />
   }
   return (
     <View style={styles.container(type)}>

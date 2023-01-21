@@ -6,7 +6,7 @@ import { colors, fonts } from "../../utils";
 export default function ChooseDoctor({ navigation }) {
   return (
     <View style={styles.page}>
-      <Header title="Choose Pediatrician" type="dark" />
+      <Header title="Choose Pediatrician" type="dark"  onPress={() => navigation.goBack()} />
       <ListDoctor
         type="next"
         profile={DummyDoctor1}

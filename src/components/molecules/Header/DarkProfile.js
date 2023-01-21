@@ -4,10 +4,10 @@ import { colors, fonts } from "../../../utils";
 import { Button } from "../../atoms";
 import { DummyDoctor5 } from "../../../assets";
 
-export default function DarkProfile() {
+export default function DarkProfile({onPress}) {
   return (
     <View style={styles.container}>
-      <Button type="icon-only" icon="back-light" />
+      <Button type="icon-only" icon="back-light" onPress={onPress}/>
       <View style={styles.content}>
         <Text style={styles.name}>Alexandra Jennie</Text>
         <Text style={styles.occupation}>Pediatrician</Text>
