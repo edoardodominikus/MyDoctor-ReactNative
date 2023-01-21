@@ -4,23 +4,23 @@ import { Button, Gap, Header, Link } from "../../components";
 import { ILNullPhoto } from "../../assets/illustration";
 import { IconAddPhoto } from "../../assets/icon";
 import { colors, fonts } from "../../utils";
-export default function UploadPhoto() {
+export default function UploadPhoto({ navigation }) {
   return (
     <View style={styles.page}>
       <Header title="Upload Photo" />
       <View style={styles.content}>
         <View style={styles.profile}>
-            <View style={styles.avatarWrapper}>
+          <View style={styles.avatarWrapper}>
             <Image source={ILNullPhoto} style={styles.avatar} />
             <IconAddPhoto style={styles.addPhoto} />
-            </View>
-            <Text style={styles.name}>Name</Text>
-            <Text style={styles.profession}>Profession</Text>
+          </View>
+          <Text style={styles.name}>Name</Text>
+          <Text style={styles.profession}>Profession</Text>
         </View>
         <View>
-          <Button title="Upload and Continue" />
-          <Gap height={30}/>
-          <Link title="Skip for now" align="center" size={16}/>
+          <Button title="Upload and Continue" onPress={() => navigation.replace("MainApp")} />
+          <Gap height={30} />
+          <Link title="Skip for now" align="center" size={16} onPress={() => navigation.replace("MainApp")}/>
         </View>
       </View>
     </View>
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
   },
-  profile:{
-    alignItems:'center',
+  profile: {
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   avatar: {
     width: 110,

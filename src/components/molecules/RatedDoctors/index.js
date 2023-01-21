@@ -3,14 +3,15 @@ import React from "react";
 import { DummyDoctor1 } from "../../../assets/dummy";
 import { IconStar } from "../../../assets/icon";
 import { colors, fonts } from "../../../utils";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function RatedDoctors() {
+export default function RatedDoctors({ name, desc, avatar, onPress }) {
   return (
-    <View style={styles.container}>
-      <Image source={DummyDoctor1} style={styles.avatar} />
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Image source={avatar} style={styles.avatar} />
       <View style={styles.profile}>
-        <Text style={styles.name}>Doctor Name</Text>
-        <Text style={styles.category}>Pediatrician</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.category}>{desc}</Text>
       </View>
       <View style={styles.rate}>
         <IconStar />
@@ -19,7 +20,7 @@ export default function RatedDoctors() {
         <IconStar />
         <IconStar />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 16,
+    alignItems: "center",
   },
   avatar: {
     width: 50,

@@ -9,7 +9,7 @@ import {
 import { colors, fonts } from "../../utils";
 import { ScrollView } from "react-native-gesture-handler";
 import { Gap } from "../../components/atoms";
-import { JSONCategoryDoctor } from "../../assets";
+import { DummyDoctor1, DummyDoctor2, DummyDoctor3, JSONCategoryDoctor } from "../../assets";
 
 export default function Doctor({navigation}) {
   return (
@@ -42,9 +42,9 @@ export default function Doctor({navigation}) {
           </View>
           <View style={styles.wrapperSection}>
             <Text style={styles.sectionLabel}>Top Rated Doctors</Text>
-            <RatedDoctors />
-            <RatedDoctors />
-            <RatedDoctors />
+            <RatedDoctors name="Alexa Rachel" desc="Pediatrician" avatar={DummyDoctor1} onPress={() => navigation.navigate("DoctorProfile")}/>
+            <RatedDoctors name="Sunny Frank" desc="Dentist" avatar={DummyDoctor2} onPress={() => navigation.navigate("DoctorProfile")}/>
+            <RatedDoctors name="Poe Poe" desc="Podiatrist" avatar={DummyDoctor3} onPress={() => navigation.navigate("DoctorProfile")}/>
             <Text style={styles.sectionLabel}>Good News</Text>
           </View>
           <NewsItem />

@@ -11,8 +11,8 @@ export default function HomeProfile({ onPress }) {
     >
       <Image source={DummyUser} style={styles.avatar} />
       <View>
-        <Text style={styles.name}>Name</Text>
-        <Text style={styles.occupation}>Job</Text>
+        <Text style={styles.name}>Shayna Melinda</Text>
+        <Text style={styles.occupation}>Product Designer</Text>
       </View>
     </TouchableOpacity>
   );
