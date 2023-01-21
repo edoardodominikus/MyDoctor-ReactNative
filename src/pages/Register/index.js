@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Button, Gap, Header, Input } from "../../components";
 import { colors } from "../../utils/colors";
@@ -11,7 +11,7 @@ export default function Register({ navigation }) {
           navigation.goBack();
         }}
       />
-      <View style={styles.content}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <Input label="Full Name" />
         <Gap height={24} />
         <Input label="Pekerjaan" />
@@ -26,7 +26,7 @@ export default function Register({ navigation }) {
             navigation.navigate("UploadPhoto");
           }}
         />
-      </View>
+      </ScrollView>
     </View>
   );
 }
