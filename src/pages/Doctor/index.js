@@ -11,13 +11,12 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Gap } from "../../components/atoms";
 import { JSONCategoryDoctor } from "../../assets";
 
-
-export default function Doctor() {
+export default function Doctor({navigation}) {
   return (
     <View style={styles.page}>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style= {styles.wrapperSection}>
+          <View style={styles.wrapperSection}>
             <Gap height={30} />
             <HomeProfile />
             <Text style={styles.welcome}>
@@ -28,11 +27,15 @@ export default function Doctor() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <Gap width={32} />
-                {
-                  JSONCategoryDoctor.data.map(item => {
-                    return <DoctorCategory key={item.id} category={item.category} />
-                  })
-                }
+                {JSONCategoryDoctor.data.map((item) => {
+                  return (
+                    <DoctorCategory
+                      key={item.id}
+                      category={item.category}
+                      onPress={() => navigation.navigate("ChooseDoctor")}
+                    />
+                  );
+                })}
                 <Gap width={22} />
               </View>
             </ScrollView>
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
-  wrapperSection:{
+  wrapperSection: {
     paddingHorizontal: 16,
   },
   welcome: {

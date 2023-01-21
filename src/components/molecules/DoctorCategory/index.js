@@ -1,27 +1,31 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { ILCatPsikiater, ILCatUmum, ILCatObat } from "../../../assets/illustration";
+import {
+  ILCatPsikiater,
+  ILCatUmum,
+  ILCatObat,
+} from "../../../assets/illustration";
 import { colors, fonts } from "../../../utils";
 
-export default function DoctorCategory({category}) {
+export default function DoctorCategory({ category, onPress }) {
   const Icon = () => {
-    if(category === 'General Practitioner'){
-      return <ILCatUmum style={styles.illustration} />
+    if (category === "General Practitioner") {
+      return <ILCatUmum style={styles.illustration} />;
     }
-    if(category === 'Psychiatrist'){
-      return <ILCatPsikiater style={styles.illustration} />
+    if (category === "Psychiatrist") {
+      return <ILCatPsikiater style={styles.illustration} />;
     }
-    if(category === 'Medicine'){
-      return <ILCatObat style={styles.illustration} />
+    if (category === "Medicine") {
+      return <ILCatObat style={styles.illustration} />;
     }
-    return <ILCatUmum style={styles.illustration} />
-  }
+    return <ILCatUmum style={styles.illustration} />;
+  };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Icon />
       <Text style={styles.label}>I need</Text>
       <Text style={styles.category}>{category}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
     width: 100,
-    height: 140
+    height: 140,
   },
   illustration: {
     marginBottom: 28,
