@@ -11,6 +11,5 @@ firebase.initializeApp({
     measurementId: "G-KQ6B2STKHZ"
 });
 
-const Fire = firebase;
+export const Firebase = firebase;
 
-export default Fire;
