@@ -2,10 +2,11 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Button, Gap, Header, Input, Loading } from "../../components";
 import { colors } from "../../utils/colors";
-import { useForm } from "../../utils";
+import { getData, storeData, useForm } from "../../utils";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Firebase } from "../../config";
 import { showMessage } from "react-native-flash-message";
+import { getDatabase, ref, set } from "firebase/database";
 
 export default function Register({ navigation }) {
   const [form, setForm] = useForm({
@@ -14,10 +15,11 @@ export default function Register({ navigation }) {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const onContinue = () => {
     console.log("onContinue");
     console.log(form);
+   
     setLoading(true);
     const auth = getAuth(Firebase);
     createUserWithEmailAndPassword(auth, form.email, form.password)
@@ -25,9 +27,21 @@ export default function Register({ navigation }) {
         // Signed in
         setLoading(false);
         setForm("reset");
+       
+
+        const db = getDatabase();
         var user = userCredential.user;
-        console.log("Register Success:", userCredential)
-        // ...
+        const data = {
+          fullName: form.fullName,
+          profession: form.profession,
+          email: form.email,
+          uid: user.uid,
+        };
+        set(ref(db, "users/" + user.uid), data);
+        storeData("user", data);
+
+        console.log("Register Success:", user);
+        navigation.navigate("UploadPhoto",data);
       })
       .catch((error) => {
         setLoading(false);
@@ -35,14 +49,12 @@ export default function Register({ navigation }) {
         var errorMessage = error.message;
         showMessage({
           message: errorMessage,
-          type: 'default',
+          type: "default",
           backgroundColor: colors.error,
           color: colors.white,
         });
         console.log("Register Error: ", errorMessage);
-        // ..
       });
-    // navigation.navigate("UploadPhoto");
   };
   return (
     <>

@@ -1,17 +1,22 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import HomeProfile from "../../components/molecules/HomeProfile";
 import {
   DoctorCategory,
   NewsItem,
   RatedDoctors,
 } from "../../components/molecules";
-import { colors, fonts } from "../../utils";
+import { colors, fonts, getData } from "../../utils";
 import { ScrollView } from "react-native-gesture-handler";
 import { Gap } from "../../components/atoms";
 import { DummyDoctor1, DummyDoctor2, DummyDoctor3, JSONCategoryDoctor } from "../../assets";
 
 export default function Doctor({navigation}) {
+  // useEffect(() => {
+  //   getData('user').then(res => {
+  //     console.log('data user doctor page: ', res);
+  //   })
+  // },[])
   return (
     <View style={styles.page}>
       <View style={styles.content}>
