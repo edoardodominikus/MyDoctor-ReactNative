@@ -1,14 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Gap, Header, List, Profile } from "../../components";
-import { colors } from "../../utils";
+import { colors, getData } from "../../utils";
+import { ILNullPhoto } from "../../assets";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function UserProfile({ navigation }) {
+  const [profile, setProfile] = useState({
+    photo: ILNullPhoto,
+    fullName: '',
+    profession: '',
+  })
+  useEffect(() => {
+    getData('user').then(res => {
+      console.log('data user profile page: ', res);
+      const data = res;
+      data.photo = {uri: res.photo};
+      setProfile(data);
+    });
+  },[]);
+  const signOutUser = () =>{
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  }
   return (
     <View style={styles.page}>
       <Header title="Profile" onPress={() => navigation.goBack()} />
       <Gap height={40} />
-      <Profile name="Shayna Melinda" desc="Product Designer"/>
+      {profile.fullName.length > 0 && <Profile name={profile.fullName} desc={profile.profession} photo={profile.photo}/>}
+      
       <Gap height={16} />
       <View>
         <List
@@ -19,7 +45,7 @@ export default function UserProfile({ navigation }) {
           onPress={() => navigation.navigate("UpdateProfile")}
         />
         <List
-          name="language"
+          name="Language"
           desc="Available 10 languages"
           type="next"
           icon="language"
@@ -30,7 +56,7 @@ export default function UserProfile({ navigation }) {
           type="next"
           icon="rate"
         />
-        <List name="Help Center" desc="Help Center" type="next" icon="help" />
+        <List name="Sign Out" desc="Help Center" type="next" icon="help" onPress={signOutUser} />
       </View>
     </View>
   );

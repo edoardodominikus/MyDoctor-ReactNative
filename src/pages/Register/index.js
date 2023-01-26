@@ -48,12 +48,12 @@ export default function Register({ navigation }) {
         var errorCode = error.code;
         var errorMessage = error.message;
         showMessage({
-          message: errorMessage,
+          message: errorCode,
           type: "default",
           backgroundColor: colors.error,
           color: colors.white,
         });
-        console.log("Register Error: ", errorMessage);
+        console.log("Register Error: ", errorCode);
       });
   };
   return (

@@ -1,24 +1,30 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { DummyUser, IconRemovePhoto } from "../../../assets";
+import { IconRemovePhoto } from "../../../assets";
 import React from "react";
 import { colors, fonts } from "../../../utils";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Profile({ name, desc, isRemove }) {
+export default function Profile({ name, desc, photo, isRemove, onPress }) {
+ console.log("profile photo: ",photo);
   return (
     <View style={styles.container}>
-      <View style={styles.borderProfile}>
-        <Image style={styles.avatar} source={DummyUser} />
-        {isRemove && <IconRemovePhoto style={styles.removePhoto}/>}
-      </View>
-      {
-        name && (
-          <View>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.occupation}>{desc}</Text>
-          </View>
-        )
+      {!isRemove &&
+        <View style={styles.borderProfile}>
+          <Image style={styles.avatar} source={photo} />
+        </View>
       }
-      
+      {isRemove && (
+        <TouchableOpacity style={styles.borderProfile} onPress={onPress}>
+          <Image style={styles.avatar} source={photo} />
+          {isRemove && <IconRemovePhoto style={styles.removePhoto} />}
+        </TouchableOpacity>
+      )}
+      {name && (
+        <View>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.occupation}>{desc}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -57,8 +63,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   removePhoto: {
-    position: 'absolute',
+    position: "absolute",
     right: 8,
     bottom: 8,
-  }
+  },
 });
