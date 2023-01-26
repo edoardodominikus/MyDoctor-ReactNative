@@ -12,11 +12,11 @@ import { Gap } from "../../components/atoms";
 import { DummyDoctor1, DummyDoctor2, DummyDoctor3, JSONCategoryDoctor } from "../../assets";
 
 export default function Doctor({navigation}) {
-  // useEffect(() => {
-  //   getData('user').then(res => {
-  //     console.log('data user doctor page: ', res);
-  //   })
-  // },[])
+  useEffect(() => {
+    getData('user').then(res => {
+      console.log('data user doctor page: ', res);
+    })
+  },[])
   return (
     <View style={styles.page}>
       <View style={styles.content}>
