@@ -2,31 +2,32 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { ILLOGO } from "../../assets/illustration";
 import { Input, Link, Button, Gap } from "../../components/atoms";
-import { Loading } from "../../components";
 import { colors, fonts, storeData, useForm } from "../../utils";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { showMessage } from "react-native-flash-message";
 import { ScrollView } from "react-native-gesture-handler";
 import { getDatabase, ref, child, get } from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import { set_loading } from "../../redux/counterSlice";
 
 export default function Login({ navigation }) {
   const [form, setForm] = useForm({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const Login = () => {
     console.log("onLogin form: ", form);
-    setLoading(true);
+    dispatch(set_loading({ value: true }));
     const auth = getAuth();
     signInWithEmailAndPassword(auth, form.email, form.password)
       .then((userCredential) => {
-        setLoading(false);
-
+        dispatch(set_loading({ value: false }));
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${userCredential.user.uid}`))
           .then((snapshot) => {
             if (snapshot.exists()) {
-              console.log("snapshot: ",snapshot.val());
-              storeData('user', snapshot.val());
+              console.log("snapshot: ", snapshot.val());
+              storeData("user", snapshot.val());
               navigation.replace("MainApp");
             } else {
               console.log("No data available");
@@ -35,14 +36,9 @@ export default function Login({ navigation }) {
           .catch((error) => {
             console.error(error);
           });
-
-        // Signed in
-        // console.log("Success Login", userCredential);
-        // const user = userCredential.user;
-        // ...
       })
       .catch((error) => {
-        setLoading(false);
+        dispatch(set_loading({ value: false }));
         console.log("Error Login", error.code);
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -53,8 +49,8 @@ export default function Login({ navigation }) {
           color: colors.white,
         });
       });
-    // navigation.replace("MainApp");
   };
+
   return (
     <>
       <View style={styles.page}>
@@ -85,7 +81,6 @@ export default function Login({ navigation }) {
           />
         </ScrollView>
       </View>
-      {loading && <Loading />}
     </>
   );
 }

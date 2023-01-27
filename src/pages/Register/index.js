@@ -7,6 +7,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Firebase } from "../../config";
 import { showMessage } from "react-native-flash-message";
 import { getDatabase, ref, set } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { set_loading } from "../../redux/counterSlice";
 
 export default function Register({ navigation }) {
   const [form, setForm] = useForm({
@@ -15,19 +17,21 @@ export default function Register({ navigation }) {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const onContinue = () => {
     console.log("onContinue");
     console.log(form);
-   
-    setLoading(true);
+    dispatch(set_loading({ value: true }));
+
     const auth = getAuth(Firebase);
     createUserWithEmailAndPassword(auth, form.email, form.password)
       .then((userCredential) => {
         // Signed in
-        setLoading(false);
+
+        dispatch(set_loading({ value: false }));
+
         setForm("reset");
-       
 
         const db = getDatabase();
         var user = userCredential.user;
@@ -41,10 +45,11 @@ export default function Register({ navigation }) {
         storeData("user", data);
 
         console.log("Register Success:", user);
-        navigation.navigate("UploadPhoto",data);
+        navigation.navigate("UploadPhoto", data);
       })
       .catch((error) => {
-        setLoading(false);
+        dispatch(set_loading({ value: false }));
+
         var errorCode = error.code;
         var errorMessage = error.message;
         showMessage({
@@ -94,7 +99,6 @@ export default function Register({ navigation }) {
           <Button title="Continue" onPress={onContinue} />
         </ScrollView>
       </View>
-      {loading && <Loading />}
     </>
   );
 }
