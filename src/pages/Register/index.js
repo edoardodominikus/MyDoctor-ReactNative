@@ -1,14 +1,14 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { Button, Gap, Header, Input, Loading } from "../../components";
-import { colors } from "../../utils/colors";
-import { getData, storeData, useForm } from "../../utils";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { Firebase } from "../../config";
-import { showMessage } from "react-native-flash-message";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import React from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
+import { Button, Gap, Header, Input } from "../../components";
+import { Firebase } from "../../config";
 import { set_loading } from "../../redux/counterSlice";
+import { storeData, useForm } from "../../utils";
+import { colors } from "../../utils/colors";
 
 export default function Register({ navigation }) {
   const [form, setForm] = useForm({
@@ -20,8 +20,6 @@ export default function Register({ navigation }) {
   const dispatch = useDispatch();
 
   const onContinue = () => {
-    console.log("onContinue");
-    console.log(form);
     dispatch(set_loading({ value: true }));
 
     const auth = getAuth(Firebase);
@@ -44,7 +42,6 @@ export default function Register({ navigation }) {
         set(ref(db, "users/" + user.uid), data);
         storeData("user", data);
 
-        console.log("Register Success:", user);
         navigation.navigate("UploadPhoto", data);
       })
       .catch((error) => {
@@ -58,7 +55,6 @@ export default function Register({ navigation }) {
           backgroundColor: colors.error,
           color: colors.white,
         });
-        console.log("Register Error: ", errorCode);
       });
   };
   return (

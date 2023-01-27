@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { ILLOGO } from "../../assets/illustration";
-import { Input, Link, Button, Gap } from "../../components/atoms";
-import { colors, fonts, storeData, useForm } from "../../utils";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { showMessage } from "react-native-flash-message";
+import { child, get, getDatabase, ref } from "firebase/database";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { getDatabase, ref, child, get } from "firebase/database";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { ILLOGO } from "../../assets/illustration";
+import { Button, Gap, Input, Link } from "../../components/atoms";
 import { set_loading } from "../../redux/counterSlice";
+import { colors, fonts, storeData, useForm } from "../../utils";
+import { showError } from "../../utils/showMessage";
 
 export default function Login({ navigation }) {
   const [form, setForm] = useForm({ email: "", password: "" });
@@ -16,7 +16,6 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch();
 
   const Login = () => {
-    console.log("onLogin form: ", form);
     dispatch(set_loading({ value: true }));
     const auth = getAuth();
     signInWithEmailAndPassword(auth, form.email, form.password)
@@ -26,28 +25,24 @@ export default function Login({ navigation }) {
         get(child(dbRef, `users/${userCredential.user.uid}`))
           .then((snapshot) => {
             if (snapshot.exists()) {
-              console.log("snapshot: ", snapshot.val());
               storeData("user", snapshot.val());
               navigation.replace("MainApp");
             } else {
-              console.log("No data available");
             }
           })
-          .catch((error) => {
-            console.error(error);
-          });
+          .catch((error) => {});
       })
       .catch((error) => {
         dispatch(set_loading({ value: false }));
-        console.log("Error Login", error.code);
         const errorCode = error.code;
         const errorMessage = error.message;
-        showMessage({
-          message: errorCode,
-          type: "default",
-          backgroundColor: colors.error,
-          color: colors.white,
-        });
+        showError(errorCode);
+        // showMessage({
+        //   message: errorCode,
+        //   type: "default",
+        //   backgroundColor: colors.error,
+        //   color: colors.white,
+        // });
       });
   };
 

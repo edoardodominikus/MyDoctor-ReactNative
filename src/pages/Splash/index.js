@@ -5,24 +5,20 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function Splash({ navigation }) {
   useEffect(() => {
-    setTimeout(() => {
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setTimeout(() => {
         if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
           const uid = user.uid;
-          // console.log("user: ", user);
           navigation.replace("MainApp");
-          // ...
         } else {
-          // User is signed out
-          // ...
           navigation.replace("GetStarted");
         }
-      });
-    }, 3000);
-  }, []);
+      }, 3000);
+    });
+    return () => unsubscribe();
+  }, [navigation]);
   return (
     <View style={styles.page}>
       <ILLOGO />
