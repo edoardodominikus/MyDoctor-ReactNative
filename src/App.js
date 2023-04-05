@@ -6,11 +6,13 @@ import FlashMessage from "react-native-flash-message";
 import { Loading } from "./components";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "./redux/store";
+import { LogBox } from 'react-native';
 
 const App2 = () => {
   const stateGlobal = useSelector(state => state.counter);
   console.log("state global: ",stateGlobal );
   const dispatch = useDispatch(); 
+  LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
 
   return (
     <>

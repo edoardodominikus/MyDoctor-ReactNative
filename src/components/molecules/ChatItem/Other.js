@@ -3,15 +3,15 @@ import React from "react";
 import { colors, fonts } from "../../../utils";
 import { DummyDoctor5 } from "../../../assets";
 
-export default function Other() {
+export default function Other({ text, date, photo }) {
   return (
     <View style={styles.container}>
-      <Image source={DummyDoctor5} style={styles.avatar}/>
+      <Image source={photo} style={styles.avatar} />
       <View>
         <View style={styles.chatContent}>
-            <Text style={styles.text}>Is it okay to eat too much?</Text>
+          <Text style={styles.text}>{text}</Text>
         </View>
-        <Text style={styles.date}>15:20 PM</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
     </View>
   );
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "flex-end",
     paddingLeft: 16,
-    flexDirection : "row",
+    flexDirection: "row",
   },
   avatar: {
     width: 30,
