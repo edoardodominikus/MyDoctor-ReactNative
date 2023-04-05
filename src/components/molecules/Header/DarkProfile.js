@@ -2,17 +2,16 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { colors, fonts } from "../../../utils";
 import { Button } from "../../atoms";
-import { DummyDoctor5 } from "../../../assets";
 
-export default function DarkProfile({onPress}) {
+export default function DarkProfile({onPress, title, desc, photo}) {
   return (
     <View style={styles.container}>
       <Button type="icon-only" icon="back-light" onPress={onPress}/>
       <View style={styles.content}>
-        <Text style={styles.name}>Alexandra Jennie</Text>
-        <Text style={styles.occupation}>Pediatrician</Text>
+        <Text style={styles.name}>{title}</Text>
+        <Text style={styles.occupation}>{desc}</Text>
       </View>
-      <Image style={styles.avatar} source={DummyDoctor5} />
+      <Image style={styles.avatar} source={photo} />
     </View>
   );
 }

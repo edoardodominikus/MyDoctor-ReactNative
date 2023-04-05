@@ -7,8 +7,8 @@ export default function Splash({ navigation }) {
   useEffect(() => {
     const auth = getAuth();
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setTimeout(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    setTimeout(() => {
         if (user) {
           const uid = user.uid;
           navigation.replace("MainApp");

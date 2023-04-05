@@ -31,7 +31,7 @@ export default function UserProfile({ navigation }) {
   }
   return (
     <View style={styles.page}>
-      <Header title="Profile" onPress={() => navigation.goBack()} />
+      <Header title="Profile" onPress={() => navigation.replace("MainApp")} />
       <Gap height={40} />
       {profile.fullName.length > 0 && <Profile name={profile.fullName} desc={profile.profession} photo={profile.photo}/>}
       

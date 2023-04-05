@@ -10,7 +10,7 @@ export default function Button({ type, title, onPress, icon, disable }) {
     return <IconOnly icon={icon} onPress={onPress} />;
   }
   if (type === "btn-icon-send") {
-    return <BtnIconSend disable={disable} />;
+    return <BtnIconSend disable={disable} onPress={onPress}/>;
   }
   if(disable){
     return (

@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HomeProfile from "../../components/molecules/HomeProfile";
+import { getDatabase, ref, child, get, orderByChild, query, limitToLast } from "firebase/database";
+
 import {
   DoctorCategory,
   NewsItem,
@@ -9,20 +11,89 @@ import {
 import { colors, fonts, getData } from "../../utils";
 import { ScrollView } from "react-native-gesture-handler";
 import { Gap } from "../../components/atoms";
-import { DummyDoctor1, DummyDoctor2, DummyDoctor3, JSONCategoryDoctor } from "../../assets";
 
-export default function Doctor({navigation}) {
+
+export default function Doctor({ navigation }) {
+  const [news, setNews] = useState([]);
+  const [categoryDoctor, setCategoryDoctor] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   useEffect(() => {
-    getData('user').then(res => {
+    getData("user");
+    getNews();
+    getCategoryDoctor();
+    getTopRatedDoctor();
+  },[]);
+  
+
+  const getNews = () => {
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "news/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const filteredData = snapshot.val().filter(el=> el !== null);
+          setNews(filteredData);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  const getCategoryDoctor = () => {
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "category_doctor/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const filteredData = snapshot.val().filter(el=> el !== null);
+          console.log(filteredData);
+          setCategoryDoctor(filteredData);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      }); 
+  }
+
+  const parseArray = (listObject) =>{
+    const data = [];
+    Object.keys(listObject).map(key => {
+      data.push({
+        id: key,
+        data: listObject[key],
+      })
     })
-  },[])
+    return data;
+  }
+  const getTopRatedDoctor = () => {
+    const dbRef = getDatabase();
+    get(query(ref(dbRef, "doctors"),orderByChild('rate'),limitToLast(2)))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          const data = parseArray(snapshot.val());
+          console.log("data after parse", data);
+          setDoctors(data);
+          console.log("doctors: ",doctors);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      }); 
+  }
+
+
   return (
     <View style={styles.page}>
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.wrapperSection}>
             <Gap height={30} />
-            <HomeProfile onPress={() => navigation.navigate("UserProfile")}/>
+            <HomeProfile onPress={() => navigation.navigate("UserProfile")} />
             <Text style={styles.welcome}>
               Who would you like to consult with today?
             </Text>
@@ -31,12 +102,12 @@ export default function Doctor({navigation}) {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <Gap width={32} />
-                {JSONCategoryDoctor.data.map((item) => {
+                {categoryDoctor.map((item) => {
                   return (
                     <DoctorCategory
                       key={item.id}
                       category={item.category}
-                      onPress={() => navigation.navigate("ChooseDoctor")}
+                      onPress={() => navigation.navigate("ChooseDoctor",item)}
                     />
                   );
                 })}
@@ -46,14 +117,42 @@ export default function Doctor({navigation}) {
           </View>
           <View style={styles.wrapperSection}>
             <Text style={styles.sectionLabel}>Top Rated Doctors</Text>
-            <RatedDoctors name="Alexa Rachel" desc="Pediatrician" avatar={DummyDoctor1} onPress={() => navigation.navigate("DoctorProfile")}/>
-            <RatedDoctors name="Sunny Frank" desc="Dentist" avatar={DummyDoctor2} onPress={() => navigation.navigate("DoctorProfile")}/>
-            <RatedDoctors name="Poe Poe" desc="Podiatrist" avatar={DummyDoctor3} onPress={() => navigation.navigate("DoctorProfile")}/>
+            {doctors.map(doctor=>{
+              return(
+                <RatedDoctors
+                key={doctor.id}
+                name={doctor.data.fullName}
+                desc={doctor.data.profession}
+                avatar={{uri: doctor.data.photo}}
+                onPress={() => navigation.navigate("DoctorProfile",doctor)}
+              />
+              )
+            })}
+            
+            {/* <RatedDoctors
+              name="Sunny Frank"
+              desc="Dentist"
+              avatar={DummyDoctor2}
+              onPress={() => navigation.navigate("DoctorProfile")}
+            />
+            <RatedDoctors
+              name="Poe Poe"
+              desc="Podiatrist"
+              avatar={DummyDoctor3}
+              onPress={() => navigation.navigate("DoctorProfile")}
+            /> */}
             <Text style={styles.sectionLabel}>Good News</Text>
           </View>
-          <NewsItem />
-          <NewsItem />
-          <NewsItem />
+          {news.map((item) => {
+            return (
+              <NewsItem
+                key={item.id}
+                date={item.date}
+                image={item.image}
+                title={item.title}
+              />
+            );
+          })}
         </ScrollView>
       </View>
     </View>

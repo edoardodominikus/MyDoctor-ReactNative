@@ -4,17 +4,18 @@ import { Header, Profile, ProfileItem } from '../../components/molecules'
 import { Button, Gap } from '../../components/atoms'
 import { colors } from '../../utils'
 
-export default function DoctorProfile({navigation}) {
+export default function DoctorProfile({navigation, route}) {
+  const DoctorData = route.params;
   return (
     <View style={styles.page}>
       <Header title="Doctor Profile" onPress={() => navigation.goBack()}/>
-      <Profile name="Alexa Rachel" desc="Pediatrician" />
+      <Profile name={DoctorData.data.fullName} desc={DoctorData.data.profession} photo={{uri:DoctorData.data.photo}}/>
       <Gap height={10}/>
-      <ProfileItem label="Alumnus" value="Universitas Indonesia, 2020"/>
-      <ProfileItem label="Tempat Praktik" value="Rumah Sakit Umum, Bandung"/>
-      <ProfileItem label="No. STR" value="0000116622081996"/>
+      <ProfileItem label="Alumnus" value={DoctorData.data.university}/>
+      <ProfileItem label="Tempat Praktik" value={DoctorData.data.hospital_address}/>
+      <ProfileItem label="No. STR" value={DoctorData.data.str_number}/>
       <View style={styles.action}>
-        <Button title="Start Consultation" onPress={() => navigation.navigate("Chatting")}/>
+        <Button title="Start Consultation" onPress={() => navigation.navigate("Chatting", DoctorData)}/>
       </View>
     </View>
   )
