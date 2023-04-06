@@ -22,8 +22,9 @@ export default function UserProfile({ navigation }) {
   const signOutUser = () =>{
     const auth = getAuth();
     signOut(auth)
-      .then(() => {
+    .then(() => {
         // Sign-out successful.
+        navigation.replace("Splash");
       })
       .catch((error) => {
         // An error happened.
