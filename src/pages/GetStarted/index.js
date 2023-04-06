@@ -3,9 +3,12 @@ import React from 'react';
 import { ILLOGO, ILGetStarted } from '../../assets/illustration';
 import { Gap,Button } from '../../components/atoms';
 import { colors,fonts } from '../../utils';
+import { useSelector } from 'react-redux';
    
 
 export default function GetStarted({navigation}) {
+  const stateGlobal = useSelector(state => state.counter);
+
   return (
     <ImageBackground source={ILGetStarted} style={styles.page}>
         <View>

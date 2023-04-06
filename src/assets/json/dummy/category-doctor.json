@@ -1,0 +1,20 @@
+{
+    "data": [
+    {
+        "id": 1,
+        "category": "General Practitioner"
+    },
+    {
+        "id": 2,
+        "category": "Psychiatrist"
+    },
+    {
+        "id": 3,
+        "category": "Medicine"
+    },
+    {
+        "id": 4,
+        "category": "General Practitioner"
+    }
+]
+}
